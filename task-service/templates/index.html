@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        span {
+            flex-grow: 1;
+            font-size: 16px;
+            color: #333;
+            cursor: pointer;
+        }
+
+        span[style="text-decoration: line-through;"] {
+            color: #888;
+        }
+
+        a {
+            text-decoration: none;
+            color: #3498db;
+            margin-left: 10px;
+            font-size: 14px;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 75%;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Todos</h1>
+        <ul>
+            {% for todo in todos %}
+            <li>
+                <input type="checkbox" {% if todo['done'] %} checked {% endif %}>
+                <span {% if todo['done'] %} style="text-decoration: line-through;" {% endif %}>
+                    {{ todo['task'] }}
+                </span>
+                <div>
+                    <a href="{{ url_for('check', task_id=todo['task_id']) }}">Check</a>
+                    <a href="{{ url_for('edit', task_id=todo['task_id']) }}">Edit</a>
+                    <a href="{{ url_for('delete', task_id=todo['task_id']) }}">Delete</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+        <form action="{{ url_for('add') }}" method="post">
+            <input type="text" name="todo" placeholder="Enter a new todo" required>
+            <button type="submit">Add Todo</button>
+        </form>
+    </div>
+
+</body>
+
+</html>
