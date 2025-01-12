@@ -4,9 +4,20 @@ This is a simple Todo list web application built using Flask as the web framewor
 
 ## Project Structure
 
-The project is structured as follows:
-
-
+├── app/
+│   ├── app.py          # Main application code
+│   ├── redis_client.py # Redis connection logic
+│   ├── static/         # Static files (CSS, images, etc.)
+│   │   └── style.css
+│   └── templates/      # HTML templates
+│       ├── index.html
+│       └── edit.html
+│
+├── Dockerfile          # Docker instructions for building the app
+├── docker-compose.yml  # Docker Compose file for running services
+├── requirements.txt    # Python dependencies
+├── README.md           # Project documentation
+└── .gitignore          # Ignored files and directories for Git
 
 ## Requirements
 
@@ -28,20 +39,3 @@ Follow these steps to get the app running with Redis in Docker containers.
 git clone https://github.com/Okpala-Uchenna/flask-todo.git
 cd flask-todo
 ```
-
-flask-todo/
-│
-├── app/
-│   ├── app.py          # Main application code
-│   ├── redis_client.py # Redis connection logic
-│   ├── static/         # Static files (CSS, images, etc.)
-│   │   └── style.css
-│   └── templates/      # HTML templates
-│       ├── index.html
-│       └── edit.html
-│
-├── Dockerfile          # Docker instructions for building the app
-├── docker-compose.yml  # Docker Compose file for running services
-├── requirements.txt    # Python dependencies
-├── README.md           # Project documentation
-└── .gitignore          # Ignored files and directories for Git
