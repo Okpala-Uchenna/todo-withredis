@@ -4,6 +4,24 @@ This is a simple Todo list web application built using Flask as the web framewor
 
 ## Project Structure
 
+```
+flask-todo/
+│
+├── app/
+│   ├── app.py          # Main application code
+│   ├── redis_client.py # Redis connection logic
+│   ├── static/         # Static files (CSS, images, etc.)
+│   │   └── style.css
+│   └── templates/      # HTML templates
+│       ├── index.html
+│       └── edit.html
+│
+├── Dockerfile          # Docker instructions for building the app
+├── docker-compose.yml  # Docker Compose file for running services
+├── requirements.txt    # Python dependencies
+├── README.md           # Project documentation
+└── .gitignore          # Ignored files and directories for Gitflask-todo/
+│
 ├── app/
 │   ├── app.py          # Main application code
 │   ├── redis_client.py # Redis connection logic
@@ -18,7 +36,7 @@ This is a simple Todo list web application built using Flask as the web framewor
 ├── requirements.txt    # Python dependencies
 ├── README.md           # Project documentation
 └── .gitignore          # Ignored files and directories for Git
-
+```
 ## Requirements
 
 - Docker
