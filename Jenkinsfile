@@ -17,7 +17,7 @@ pipeline {
         stage('Build Application') {
             steps {
                 echo 'Building application...'
-                sh ' docker build -t todo-app-image -f Dockerfile .'
+                sh ' docker compose up --build -d .'
             }
         }
 
