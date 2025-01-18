@@ -16,8 +16,8 @@ pipeline {
 
         stage('Build Application') {
             steps {
-                echo 'Building application...'
-                sh ' docker compose up --build -d .'
+                echo 'Building application using Docker Compose...'
+                sh 'docker-compose -f docker-compose.yml up --build -d'
             }
         }
 
