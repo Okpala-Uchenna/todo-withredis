@@ -10,7 +10,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 // Pull your code from the repository using Git credentials
-                git branch: 'main',
+                git branch: 'master', // Changed from 'main' to 'master'
                     credentialsId: "${env.GITHUB_CREDS}",
                     url: 'https://github.com/Okpala-Uchenna/todo-withredis.git'
             }
