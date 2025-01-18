@@ -2,66 +2,51 @@ pipeline {
     agent any
 
     environment {
-        APP_NAME = "todo-app"
-        DOCKER_IMAGE = "todo-app-image"
+        // Define any environment variables, if needed
+        DOCKER_COMPOSE = '/usr/local/bin/docker-compose'  // Update the path if necessary
     }
 
     stages {
-        stage('Checkout Code') {
+        stage('Checkout') {
             steps {
-                echo 'Checking out code from repository...'
+                // Pull your code from the repository
                 checkout scm
             }
         }
 
-        stage('Build Application') {
+        stage('Build and Deploy with Docker Compose') {
             steps {
-                echo 'Building application using Docker Compose...'
-                sh 'docker-compose -f docker-compose.yml up --build -d'
+                script {
+                    // Ensure Docker is available (this may be redundant if running on Docker nodes)
+                    sh 'docker --version'
+                    sh 'docker-compose --version'
+                    
+                    // Run docker-compose up with the build flag
+                    sh """
+                        docker-compose -f docker-compose.yml up --build -d
+                    """
+                }
             }
         }
 
-        stage('Run Tests') {
+        stage('Post-Build Cleanup') {
             steps {
-                echo 'Running application tests...'
-                sh 'docker run --rm $DOCKER_IMAGE npm test' // Replace 'npm test' with your test command
-            }
-        }
-
-        stage('Code Quality Check') {
-            steps {
-                echo 'Running code quality checks...'
-                sh 'docker run --rm $DOCKER_IMAGE npm run lint' // Replace with your linting/formatting command
-            }
-        }
-
-        stage('Package Application') {
-            steps {
-                echo 'Packaging application...'
-                sh 'docker save -o $APP_NAME.tar $DOCKER_IMAGE'
-            }
-        }
-
-        stage('Deploy to Test Environment') {
-            steps {
-                echo 'Deploying application to test environment...'
-                sh 'docker load < $APP_NAME.tar'
-                sh 'docker run -d --name $APP_NAME -p 8080:8080 $DOCKER_IMAGE'
+                // Optionally, you can run tests, stop containers, or clean up
+                sh 'docker-compose down'
             }
         }
     }
 
     post {
-        always {
-            echo 'Cleaning up Docker containers and images...'
-            sh 'docker rm -f $APP_NAME || true'
-            sh 'docker rmi $DOCKER_IMAGE || true'
-        }
         success {
-            echo 'Pipeline completed successfully!'
+            echo "Docker Compose build and deployment succeeded!"
         }
         failure {
-            echo 'Pipeline failed. Please check the logs.'
+            echo "There was an issue with the build or deployment."
+        }
+        always {
+            // Ensure containers are down even if the pipeline fails
+            sh 'docker-compose down'
         }
     }
 }
