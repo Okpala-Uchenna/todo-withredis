@@ -2,22 +2,24 @@ pipeline {
     agent any
 
     environment {
-        // Define any environment variables, if needed
         DOCKER_COMPOSE = '/usr/local/bin/docker-compose'  // Update the path if necessary
+        GITHUB_CREDS = 'f619b8b7-c394-412a-af83-2acc73e6b05d' // Jenkins credentials ID
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Pull your code from the repository
-                checkout scm
+                // Pull your code from the repository using Git credentials
+                git branch: 'main',
+                    credentialsId: "${env.GITHUB_CREDS}",
+                    url: 'https://github.com/Okpala-Uchenna/todo-withredis.git'
             }
         }
 
         stage('Build and Deploy with Docker Compose') {
             steps {
                 script {
-                    // Ensure Docker is available (this may be redundant if running on Docker nodes)
+                    // Ensure Docker is available
                     sh 'docker --version'
                     sh 'docker-compose --version'
                     
